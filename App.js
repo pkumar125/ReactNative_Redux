@@ -13,7 +13,6 @@ import {
 
 class App extends Component {
   render() {
-    console.log('dddddddddd');
     const {
       addPlace,
       deletePlace,

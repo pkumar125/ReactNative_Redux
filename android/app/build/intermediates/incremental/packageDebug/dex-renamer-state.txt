@@ -1,0 +1,4 @@
+#Thu Sep 20 17:29:10 IST 2018
+base.0=/var/www/html/reactNative/eRideLite/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+renamed.0=classes.dex
+file.0=/var/www/html/reactNative/eRideLite/android/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
