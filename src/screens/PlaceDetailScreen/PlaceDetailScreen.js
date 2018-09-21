@@ -11,31 +11,28 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import { deletePlace } from "../../store/actions/places";
 
-
+const mapDispatchToProps = {
+  deletePlace
+};
 
 class PlaceDetailScreen extends Component {
-
-    placeDeletedHandler = () => {
-        this.props.onDeletePlace(this.props.selectedPlace.key);
-        this.props.navigator.pop();
-    }
-
   render() {
-      const { selectedPlace } = this.props;
-    return <View style={styles.container}>
+    const { deletePlace, selectedPlace } = this.props;
+    return (
+      <View style={styles.container}>
         <View>
           <Image source={selectedPlace.imagename} style={styles.placeImage} />
           <Text style={styles.placeName}>{selectedPlace.name}</Text>
-            <Text style={styles.placeName}>{selectedPlace.key}</Text>
         </View>
         <View>
-          <TouchableOpacity onPress={this.placeDeletedHandler}>
+          <TouchableOpacity onPress={deletePlace(selectedPlace.key)}>
             <View style={styles.deleteButton}>
               <Icon size={30} name="ios-trash" color="red" />
             </View>
           </TouchableOpacity>
         </View>
-      </View>;
+      </View>
+    );
   }
 }
 
@@ -56,11 +53,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
-const mapDispatchToProps = dispatch => {
-  return {
-    onDeletePlace: key => dispatch(deletePlace(key))
-  };
-};
+
 export default connect(
   null,
   mapDispatchToProps
