@@ -14,7 +14,16 @@ const mapDispatchToProps = {
 
 class FindPlaceScreen extends Component {
   state = {
-    pName: ""
+    controls: {
+      pName: {
+        value: null,
+        valid: false
+      },
+      location: {
+        value: null,
+        valid: false
+      }
+    }
   };
 
   constructor(props) {
@@ -32,26 +41,84 @@ class FindPlaceScreen extends Component {
     }
   };
 
+  locationPickedHandler = location => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          location: {
+            value: location,
+            valid: true
+          }
+        }
+      };
+    });
+  };
+
   handlePlaceName = val => {
-    this.setState({ pName: val });
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          pName: {
+            ...prevState.controls.pName,
+            value: val,
+            valid: true,
+            touched: true
+          }
+        }
+      };
+    });
+  };
+
+  handleImagePicked = image => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          image: {
+            value: image,
+            valid: true
+          }
+        }
+      };
+    });
   };
 
   render() {
     const { addPlace } = this.props;
-    const { pName } = this.state;
-    return <ScrollView>
+    return (
+      <ScrollView>
         <View style={styles.container}>
           <MainText>
             <HeadingText>Add Places</HeadingText>
           </MainText>
-          <PickImage />
-          <PickLocation />
-          <PlaceInput pName={pName} onChangeText={this.handlePlaceName} />
+          <PickImage onImagePicked={this.handleImagePicked} />
+          <PickLocation onLocationPick={this.locationPickedHandler} />
+          <PlaceInput
+            placeData={this.state.controls.pName}
+            onChangeText={this.handlePlaceName}
+          />
           <View style={styles.button}>
-            <Button title="Share this place" onPress={addPlace} />
+            <Button
+              title="Share this place"
+              onPress={() =>
+                addPlace(
+                  this.state.controls.pName.value,
+                  this.state.controls.location.value,
+                  this.state.controls.image.value
+                )
+              }
+              disabled={
+                !this.state.controls.pName.valid ||
+                !this.state.controls.location.valid ||
+                !this.state.controls.image.value
+              }
+            />
           </View>
         </View>
-      </ScrollView>;
+      </ScrollView>
+    );
   }
 }
 

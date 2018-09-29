@@ -8,17 +8,14 @@ const initialState = { places: [] };
 const reducerP = (state = initialState, action) => {
   switch (action.type) {
     case ADD_PLACE:
-      return {
-        ...state,
-        places: state.places.concat({
+      return { ...state, places: state.places.concat({
           key: Math.random(),
-          name: action.placeName,
+          name: action.pName,
           imagename: {
-            uri:
-              "https://c1.staticflickr.com/5/4096/4744241983_34023bf303_b.jpg"
-          }
-        })
-      };
+            uri: action.imageN.uri
+          },
+          location: action.location
+        }) };
     case DELETE_PLACE:
       return {
         ...state,
